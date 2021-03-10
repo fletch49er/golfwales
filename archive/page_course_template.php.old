@@ -1,0 +1,230 @@
+<?php
+/**
+ * Template Name: Golf Course Page
+ */
+// set golf course id
+// if (isset $_GET) {
+	$golfCourseID = $_GET[''];
+//}
+
+function tick_cross($value) {
+	if ($value == true) {
+		$newValue = 'Y';
+	} else {
+		$value = 'X';
+	}
+	return $newValue;
+}
+
+$img_path = "https://www.golfscotland.net/wp-content/uploads";
+
+// open link to wp database
+global $wpdb;
+
+// data queries gs tables (golf scotland)
+$gs_gsd = $wpdb->get_results("SELECT c.id, c.name, c.address, c.telephone, c.website, c.email, c.facebook, c.twitter, c.instagram, c.length, c.par, c.description, c.weekday_fees, c.weekend_fees, c.directions, c.special_offers, c.top_course, c.featured_course, c.img_logo, ct.type FROM gs_courses AS c INNER JOIN gs_course_types AS ct ON c.type = ct.id WHERE c.id = 1");
+
+// data queries gs tables (golf scotland)
+$gs_gsf = $wpdb->get_results("SELECT `trolly_hire`, `catering`, `club_hire`, `clubhouse`, `showers`, `changing_rooms`, `driving_range`, `proshop`, `putting_area`, `buggy_hire`, `tuition`, `conference_facilities`, `function_room`, `corporate_golf`, `society_golf` FROM gs_courses WHERE id = 1");
+
+get_header();
+
+get_template_part( 'templates/top-title' ); ?>
+
+<!--<div class="mh-layout mh-top-title-offset"> -->
+
+<?php
+	while ( have_posts() ) : the_post();
+		get_template_part( 'templates/content', 'page' );
+		if ( comments_open() || get_comments_number() ) :
+			comments_template();
+    endif;
+  endwhile;
+?>
+</div>
+<style>
+* {
+	position: relative;
+}
+#gs-wrapper {
+	margin: 0px 32px 0px 32px; 
+}
+h1, h2, h3, h4 {
+	color: #0065bd; /* blue */
+}
+h2 {
+	font-weight: bold;
+}
+#gs-contactDetails a:link, #gs-contactDetails a:visited {
+	text-decoration: underline;
+	color: #0065bd; /* blue */
+}
+#gs-contactDetails a:hover {
+	color: #000;
+}
+#gs-header {
+	background-color: #ccc; /* grey */
+	height: 120px;
+	margin-bottom: 20px;
+}
+#gs-header, #gs-header h1, #gs-footer {
+	color: white;
+}
+#gs-header h1 {
+	margin: 24px 0px 0px 220px;
+}
+#gs-logo {
+	position: absolute;
+	top: 10px;
+	left: 32px;
+	height: 100px;
+}
+#gs-footer {
+	background-color: #ccc; /* grey */
+	padding: 20px 32px;
+	font-size: 12px;
+}
+#gs-contactItems, #gs-socialMedia {
+	display: inline-block;
+	margin: 10px 32px 0px 0px;
+}
+#gs-address {
+	margin-top: 10px;
+	text-align: right;
+}
+#gs-content > div {
+	margin-bottom: 20px;
+}
+#gs-weekday, #gs-weekend {
+	display: inline-block;
+	margin: 0px 32px 10px 0px;
+}
+#gs-key {
+	background-color: #b2cadf; /* lightblue */
+	padding: 20px;
+}
+#gs-maps {
+	border: 1px solid #0065bd; /* blue */
+}
+.blue {
+color:  #0065bd; /* blue */
+}
+.gs-featBox {
+	display: inline-block;
+	width: 31%;
+}
+</style>
+<?php foreach ($gs_gsd as $gsd) : ?>
+<section id="gs-header">
+<img id="gs-logo" src="<?php echo $img_path.$gsd->img_logo; ?>" alt="club logo" />
+<h1><?php echo $gsd->name; ?></h1>
+</section><!-- end #gs-header -->
+
+<section id="gs-wrapper">
+	<section id="gs-content">
+		<h2>Course Details</h2>
+		<h3>Stats:</h3>
+		<div id="gs-stats">
+			<b>Course Type:</b> <?php echo $gsd->type; ?>&nbsp;|&nbsp;
+			<b>Length:</b> <?php echo number_format($gsd->length); ?> yrds&nbsp;|&nbsp;
+			<b>Par:</b> <?php echo $gsd->par; ?>
+		</div><!-- end #gs-stats-->
+		
+		<h3>Description:</h3>
+		<div id="gs-description">
+			<p><?php echo $gsd->description; ?></p>
+		</div><!-- end #gs-description-->
+		
+		<h3>Green Fees:</h3>
+		<div id="gs-greenFees">
+			<div id="gs-weekday">
+				<b>Weekday:</b><br />
+				<?php echo $gsd->weekday_fees; ?>
+			</div><!-- end #gs-weekday -->
+			<div id="gs-weekend">
+				<b>Weekend:</b><br />
+				<?php echo $gsd->weekend_fees; ?>
+			</div><!-- end #gs-weekend -->
+			<div id="gs-key">
+				<b>Green Fee Key:</b> £1-£15 = <b class="blue">£</b>&nbsp;&nbsp;|&nbsp;&nbsp;£16-£30 = <b class="blue">££</b>&nbsp;&nbsp;|&nbsp;&nbsp;£31-£50 = <b class="blue">£££</b>&nbsp;&nbsp;|&nbsp;&nbsp;£50+ = <b class="blue">££££</b>
+			</div><!-- end #gs-key -->
+		</div><!-- end #gs-greenFees -->
+		
+		<h3>Directions:</h3>
+		<div id="gs-directions">
+			<?php echo $gsd->directions; ?>
+		</div><!-- end #gs-directions-->
+		<div id="gs-map">
+		
+		</div><!-- end #gs-map-->
+		
+		<h3>Scecial Offers:</h3>
+		<div id="gs-scecialOffers">
+			<?php echo $gsd->special_offers; ?>
+		</div><!-- end #gs-scecialOffers-->
+
+<?php foreach ($gs_gsf as $gsf) : ?>	
+		<h3>Golf Course Features and Facilities:</h3>
+		<div id="gs-features">
+			<div class="gs-featBox">
+				<b>Trolley Hire:</b> <?php echo tick_cross($gsf->trolly_hire); ?><br />
+				<b>Catering:</b> <?php echo tick_cross($gsf->catering); ?><br />
+				<b>Club Hire:</b> <?php echo tick_cross($gsf->club_hire); ?><br />
+				<b>Clubhouse:</b> <?php echo tick_cross($gsf->clubhouse); ?><br />
+				<b>Showers:</b> <?php echo tick_cross($gsf->showers); ?><br />
+			</div><!-- end .gs-featBox-->
+			<div class="gs-featBox">
+				<b>Changing Rooms:</b> <?php echo tick_cross($gsf->changing_rooms); ?><br />
+				<b>Driving Range:</b> <?php echo tick_cross($gsf->driving_range); ?><br />
+				<b>Proshop:</b> <?php echo tick_cross($gsf->proshop); ?><br />
+				<b>Putting Area:</b> <?php echo tick_cross($gsf->putting_area); ?><br />
+				<b>Buggy Hire:</b> <?php echo tick_cross($gsf->buggy_hire); ?><br />
+			</div><!-- end .gs-featBox-->
+			<div class="gs-featBox">
+				<b>Tuition:</b> <?php echo tick_cross($gsf->tuition); ?><br />
+				<b>Conference Facilities:</b> <?php echo tick_cross($gsf->conference_facilities); ?><br />
+				<b>Function Room:</b> <?php echo tick_cross($gsf->function_room); ?><br />
+				<b>Corporate Golf:</b> <?php echo tick_cross($gsf->corporate_golf) ?><br />
+				<b>Society Golf:</b> <?php echo tick_cross($gsf->society_golf); ?><br />
+			</div><!-- end .gs-featBox -->
+		</div><!-- end #gs-featuress -->	
+		</div><!-- end #gs-courseDetails -->
+<?php endforeach; ?>
+
+		<h2>Gallery:</h2>
+		<div id="gs-gallery">
+			
+		</div><!-- end #gs-gallery -->
+	</section><!-- end #gs-content -->
+	</section><!-- end #gs-gallery -->
+</section><!-- end #gs-wrapper -->
+
+<section id="gs-footer">
+	<div id="gs-courseDetails" class="clearfix">
+		<div id="gs-contactDetails">
+			<div id="gs-contactItems">
+				<h6>Ways to contact the golf club directly:</h6>
+				<b>Telephone:</b>  
+				<a href="tel:<?php echo $gsd->telephone; ?>"><?php echo $gsd->telephone; ?></a><br />
+				<b>Website:</b> 
+				<a href="<?php echo $gsd->website; ?>"><?php echo $gsd->website; ?></a><br />
+				<b>Email:</b> <a href="mail:<?php echo $gsd->email; ?>"><?php echo $gsd->email; ?></a>
+			</div><!-- end #gs-contactItems -->
+			
+			<div id="gs-socialMedia">
+				<b>Facebook:</b> 
+				<a href="<?php echo $gsd->facebook; ?>"><?php echo $gsd->facebook; ?></a><br />
+				<b>Twitter:</b>   
+				<a href="<?php echo $gsd->twitter; ?>"><?php echo $gsd->twitter; ?></a><br />
+				<b>Instagram:</b>  
+				<a href="<?php echo $gsd->instagram; ?>"><?php echo $gsd->instagram; ?></a>
+			</div><!-- end #gs-socialMedia -->
+			
+			<div id="gs-address">
+				<?php echo $gsd->address; ?>
+			</div><!-- end #gs-address -->
+		</div><!-- end #gs-contactDetails -->
+</section><!-- end #gs-footer -->
+<?php endforeach; ?>
+
+<?php get_footer(); ?>
