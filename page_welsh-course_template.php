@@ -183,23 +183,32 @@ $social_uri = [
 		</script>
 		<!-- end Google Maps API -->
 
-<?php if($course->img_ad1 != null) : ?>
+<?php if(($course->img_ad1 != null) xor ($course->special_offers != null) xor
+					($course->img_ad1 != null) && ($course->special_offers != null)) : ?>
+		<h3>Special Offers:</h3>
+<?php
+endif;
+
+if($course->img_ad1 != null) : ?>
 		<div id="gs-advertBox">
-			<a href="<?php  echo $course->website; ?>">
+			<a href="<?php echo $course->website; ?>">
 				<img class="gs-advert" src="<?php echo $img_uri.$course->img_ad1; ?>" alt="current advert No.1" />
 			</a>
 		</div><!-- end .gs-advertBox -->
 <?php
-	endif;
+endif;
 
-	if($course->special_offers != null) :
-?>
-		<h3>Special Offers:</h3>
+if(($course->img_ad1 != null) && ($course->special_offers != null)) : ?>
+		<hr style="margin: 20px auto; width: 40%; color: #eee;" />
+<?php
+endif;
+
+if($course->special_offers != null) : ?>
 		<div id="gs-specialOffers">
 <?php echo nl2br(html_entity_decode($course->special_offers)); ?>
-</div><!-- end #gs-specialOffers-->
+		</div><!-- end #gs-specialOffers-->
 <?php
-	endif;
+endif;
 
 	if($course->feature_switch == true) :
 		foreach ($features as $feature) : ?>
