@@ -40,6 +40,7 @@ define('SEPERATOR', '|');
 // url constants
 define ('SITE_URL', 'https://www.golfwales.biz/course/');
 define ('IMG_URL', 'https://www.golfwales.biz/wp-content/uploads/');
+define ('IMG_URL2', 'https://www.golfwales.biz/wp-content/themes/myhome/images/');
 
 // social media urls
 define ('FACEBOOK', 'https://www.facebook.com/');
@@ -48,26 +49,12 @@ define ('INSTAGRAM', 'https://www.instagram.com/');
 define ('YOUTUBE_CHNL', 'https://www.youtube.com/channel/');
 define ('YOUTUBE_VID', 'https://www.youtube.com/embed/');
 
-//policies t&cs data array
+// policies t&cs data array
 $ftr_navbar_data = [
 	'site map' => 'sitemap',
 	'terms &amp; conditions' => 'terms-conditions',
 	'privacy policy' => 'privacy-policy',
 	'disclaimer' => 'disclaimer',
 	'copyright' => 'copyright'
-];
-
-$placeholder = [
-	'name' => 'club or course name',
-	'address' => 'your address including postcode',
-	'select' => 'select an option',
-	'par' => 'par',
-	'length' => 'yards',
-	'phone' => 'telephone number',
-	'website' => 'https://www.yourdomainname.com',
-	'email' => 'your@emailaddrss.com',
-	'facebook' => 'https://www.facebook.com/yourusername/',
-	'twitter' => 'https://twitter.com/yourusername',
-	'instagram' => 'https://www.instagram.com/yourusername/'
 ];
 ?>
