@@ -24,7 +24,7 @@ get_template_part( 'templates/pga-top-title' ); ?>
     </div>
 
     <aside class="mh-layout__sidebar-right">
-        <?php get_template_part( 'templates/sidebar-v2' ); ?>
+        <?php get_template_part( 'templates/pga-sidebar' ); ?>
     </aside>
 
 </div>
