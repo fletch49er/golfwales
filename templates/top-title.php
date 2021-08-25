@@ -125,11 +125,14 @@ if ( $myhome_top ) :
 			<?php endif; ?>
 		<?php endif; ?>
 	>
+
 		<?php if ( ! empty( $myhome_top_title_title ) ) : ?>
 			<?php if ( is_singular( 'post' ) ) : ?>
 				<div class="mh-top-title__heading"><?php echo esc_html( $myhome_top_title_title ); ?></div>
-			<?php else : ?>
+			<?php elseif (preg_match('/:\s/', $myhome_top_title_title)) : ?>
 				<h1 class="mh-top-title__heading"><?php echo $myhome_top_title_title; ?></h1>
+			<?php else : ?>
+				<h1 class="mh-top-title__heading"><?php echo esc_html( $myhome_top_title_title ); ?></h1>
 			<?php endif; ?>
 		<?php endif; ?>
 
